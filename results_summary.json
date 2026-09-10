@@ -1,0 +1,94 @@
+{
+  "scope_note": "Synthetic validation of deterministic policy conformance and trace compaction only; not an evaluation of language-model reasoning or production safety.",
+  "seed": 20260907,
+  "scenario_templates": 12,
+  "scenarios_per_template": 20,
+  "label_distribution": {
+    "ALLOW": 20,
+    "APPROVE": 80,
+    "DENY": 100,
+    "PREVIEW": 40
+  },
+  "policy_repeats": 2000,
+  "trace_repeats": 5,
+  "environment": {
+    "python": "3.12.13",
+    "implementation": "CPython",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.39",
+    "processor": "x86_64"
+  },
+  "policy_results": [
+    {
+      "configuration": "Allow-all baseline",
+      "scenarios": 240,
+      "decision_accuracy_pct": 8.333333333333334,
+      "unsafe_auto_execution_pct": 100.0,
+      "intervention_precision_pct": 0.0,
+      "intervention_recall_pct": 0.0,
+      "policy_latency_p50_us": 0.024370833333333335,
+      "policy_latency_p95_us": 0.0249125
+    },
+    {
+      "configuration": "Static guardrail",
+      "scenarios": 240,
+      "decision_accuracy_pct": 50.0,
+      "unsafe_auto_execution_pct": 44.44444444444444,
+      "intervention_precision_pct": 100.0,
+      "intervention_recall_pct": 55.55555555555556,
+      "policy_latency_p50_us": 0.09055416666666666,
+      "policy_latency_p95_us": 0.13662083333333333
+    },
+    {
+      "configuration": "Proposed control plane",
+      "scenarios": 240,
+      "decision_accuracy_pct": 100.0,
+      "unsafe_auto_execution_pct": 0.0,
+      "intervention_precision_pct": 100.0,
+      "intervention_recall_pct": 100.0,
+      "policy_latency_p50_us": 0.11458958333333334,
+      "policy_latency_p95_us": 0.1685875
+    }
+  ],
+  "trace_results": [
+    {
+      "events": 100,
+      "critical_events": 2,
+      "critical_retention_pct": 100.0,
+      "raw_bytes": 24066,
+      "compact_bytes": 925,
+      "storage_reduction_pct": 96.15640322446605,
+      "build_time_ms": 0.507385,
+      "throughput_events_s": 197088.99553593426
+    },
+    {
+      "events": 1000,
+      "critical_events": 20,
+      "critical_retention_pct": 100.0,
+      "raw_bytes": 242889,
+      "compact_bytes": 5353,
+      "storage_reduction_pct": 97.79611262757885,
+      "build_time_ms": 5.553582,
+      "throughput_events_s": 180063.96592325458
+    },
+    {
+      "events": 10000,
+      "critical_events": 200,
+      "critical_retention_pct": 100.0,
+      "raw_bytes": 2439197,
+      "compact_bytes": 49064,
+      "storage_reduction_pct": 97.98851835255618,
+      "build_time_ms": 53.776575,
+      "throughput_events_s": 185954.57222777762
+    },
+    {
+      "events": 100000,
+      "critical_events": 2000,
+      "critical_retention_pct": 100.0,
+      "raw_bytes": 24492039,
+      "compact_bytes": 487727,
+      "storage_reduction_pct": 98.0086304778463,
+      "build_time_ms": 513.5786949999999,
+      "throughput_events_s": 194712.12683384385
+    }
+  ]
+}
