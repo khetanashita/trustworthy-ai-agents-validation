@@ -1,54 +1,125 @@
 {
-  "scope_note": "Synthetic validation of deterministic policy conformance and trace compaction only; not an evaluation of language-model reasoning or production safety.",
+  "scope_note": "Synthetic validation of deterministic policy conformance, bounded sensitivity, fail-closed schema validation, and trace compaction only; not an evaluation of language-model reasoning or production safety.",
   "seed": 20260907,
-  "scenario_templates": 12,
+  "risk_model": {
+    "weights": {
+      "impact": 0.25,
+      "privilege_breadth": 0.15,
+      "data_sensitivity": 0.2,
+      "data_scope": 0.15,
+      "uncertainty": 0.15,
+      "irreversibility": 0.1
+    },
+    "thresholds": {
+      "T0_to_T1": 0.2,
+      "T1_to_T2": 0.45,
+      "T2_to_T3": 0.7
+    },
+    "decision_mapping": {
+      "T0": "ALLOW",
+      "T1": "PREVIEW",
+      "T2": "APPROVE",
+      "T3": "DENY"
+    },
+    "categorical_overrides": {
+      "T3": [
+        "tenant_mismatch",
+        "untrusted_embedded_instruction",
+        "unbounded_query",
+        "audit_unavailable",
+        "bulk_count_over_limit"
+      ],
+      "T2_floor": [
+        "sensitive_drilldown",
+        "schema_conflict",
+        "external_side_effect",
+        "bounded_bulk_mutation"
+      ],
+      "T1_floor": [
+        "stale_snapshot",
+        "reversible_analysis"
+      ]
+    }
+  },
+  "scenario_templates": 16,
   "scenarios_per_template": 20,
   "label_distribution": {
     "ALLOW": 20,
-    "APPROVE": 80,
-    "DENY": 100,
-    "PREVIEW": 40
+    "APPROVE": 100,
+    "DENY": 120,
+    "PREVIEW": 80
   },
   "policy_repeats": 2000,
   "trace_repeats": 5,
   "environment": {
-    "python": "3.12.13",
+    "python": "3.12.14",
     "implementation": "CPython",
-    "platform": "Linux-6.18.35-x86_64-with-glibc2.39",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
     "processor": "x86_64"
   },
   "policy_results": [
     {
       "configuration": "Allow-all baseline",
-      "scenarios": 240,
-      "decision_accuracy_pct": 8.333333333333334,
+      "scenarios": 320,
+      "decision_accuracy_pct": 6.25,
       "unsafe_auto_execution_pct": 100.0,
       "intervention_precision_pct": 0.0,
       "intervention_recall_pct": 0.0,
-      "policy_latency_p50_us": 0.024370833333333335,
-      "policy_latency_p95_us": 0.0249125
+      "policy_latency_p50_us": 0.023815625,
+      "policy_latency_p95_us": 0.024128125
     },
     {
       "configuration": "Static guardrail",
-      "scenarios": 240,
-      "decision_accuracy_pct": 50.0,
-      "unsafe_auto_execution_pct": 44.44444444444444,
+      "scenarios": 320,
+      "decision_accuracy_pct": 37.5,
+      "unsafe_auto_execution_pct": 45.45454545454545,
       "intervention_precision_pct": 100.0,
-      "intervention_recall_pct": 55.55555555555556,
-      "policy_latency_p50_us": 0.09055416666666666,
-      "policy_latency_p95_us": 0.13662083333333333
+      "intervention_recall_pct": 54.54545454545455,
+      "policy_latency_p50_us": 0.090915625,
+      "policy_latency_p95_us": 0.09930312499999999
     },
     {
-      "configuration": "Proposed control plane",
-      "scenarios": 240,
+      "configuration": "Proposed hybrid control plane",
+      "scenarios": 320,
       "decision_accuracy_pct": 100.0,
       "unsafe_auto_execution_pct": 0.0,
       "intervention_precision_pct": 100.0,
       "intervention_recall_pct": 100.0,
-      "policy_latency_p50_us": 0.11458958333333334,
-      "policy_latency_p95_us": 0.1685875
+      "policy_latency_p50_us": 1.0639921875,
+      "policy_latency_p95_us": 1.3552374999999999
     }
   ],
+  "robustness_results": {
+    "weight_perturbation": {
+      "configurations": 12,
+      "accuracy_min_pct": 100.0,
+      "accuracy_max_pct": 100.0,
+      "agreement_min_pct": 100.0,
+      "unsafe_auto_max_pct": 0.0
+    },
+    "threshold_perturbation": {
+      "configurations": 6,
+      "accuracy_min_pct": 91.5625,
+      "accuracy_max_pct": 100.0,
+      "agreement_min_pct": 91.5625,
+      "unsafe_auto_max_pct": 0.0
+    },
+    "factor_ablation": {
+      "configurations": 6,
+      "accuracy_min_pct": 93.75,
+      "accuracy_max_pct": 100.0,
+      "agreement_min_pct": 93.75,
+      "unsafe_auto_max_pct": 0.0
+    }
+  },
+  "schema_validation": {
+    "valid_manifests": 320,
+    "valid_accepted": 320,
+    "malformed_variants": 960,
+    "malformed_rejected": 960,
+    "malformed_rejection_pct": 100.0,
+    "mutation_types": 3
+  },
   "trace_results": [
     {
       "events": 100,
@@ -57,8 +128,8 @@
       "raw_bytes": 24066,
       "compact_bytes": 925,
       "storage_reduction_pct": 96.15640322446605,
-      "build_time_ms": 0.507385,
-      "throughput_events_s": 197088.99553593426
+      "build_time_ms": 0.529138,
+      "throughput_events_s": 188986.61596785716
     },
     {
       "events": 1000,
@@ -67,8 +138,8 @@
       "raw_bytes": 242889,
       "compact_bytes": 5353,
       "storage_reduction_pct": 97.79611262757885,
-      "build_time_ms": 5.553582,
-      "throughput_events_s": 180063.96592325458
+      "build_time_ms": 4.737782,
+      "throughput_events_s": 211069.23028539514
     },
     {
       "events": 10000,
@@ -77,8 +148,8 @@
       "raw_bytes": 2439197,
       "compact_bytes": 49064,
       "storage_reduction_pct": 97.98851835255618,
-      "build_time_ms": 53.776575,
-      "throughput_events_s": 185954.57222777762
+      "build_time_ms": 48.256591,
+      "throughput_events_s": 207225.5787815596
     },
     {
       "events": 100000,
@@ -87,8 +158,8 @@
       "raw_bytes": 24492039,
       "compact_bytes": 487727,
       "storage_reduction_pct": 98.0086304778463,
-      "build_time_ms": 513.5786949999999,
-      "throughput_events_s": 194712.12683384385
+      "build_time_ms": 494.002542,
+      "throughput_events_s": 202428.10815333822
     }
   ]
 }
