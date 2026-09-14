@@ -1,0 +1,25 @@
+family,configuration,decision_accuracy_pct,unsafe_auto_execution_pct,intervention_precision_pct,intervention_recall_pct,agreement_with_nominal_pct
+weight_perturbation,impact x 0.8,100.0,0.0,100.0,100.0,100.0
+weight_perturbation,impact x 1.2,100.0,0.0,100.0,100.0,100.0
+weight_perturbation,privilege_breadth x 0.8,100.0,0.0,100.0,100.0,100.0
+weight_perturbation,privilege_breadth x 1.2,100.0,0.0,100.0,100.0,100.0
+weight_perturbation,data_sensitivity x 0.8,100.0,0.0,100.0,100.0,100.0
+weight_perturbation,data_sensitivity x 1.2,100.0,0.0,100.0,100.0,100.0
+weight_perturbation,data_scope x 0.8,100.0,0.0,100.0,100.0,100.0
+weight_perturbation,data_scope x 1.2,100.0,0.0,100.0,100.0,100.0
+weight_perturbation,uncertainty x 0.8,100.0,0.0,100.0,100.0,100.0
+weight_perturbation,uncertainty x 1.2,100.0,0.0,100.0,100.0,100.0
+weight_perturbation,irreversibility x 0.8,100.0,0.0,100.0,100.0,100.0
+weight_perturbation,irreversibility x 1.2,100.0,0.0,100.0,100.0,100.0
+threshold_perturbation,T0/T1 -0.05,100.0,0.0,100.0,100.0,100.0
+threshold_perturbation,T0/T1 +0.05,91.5625,0.0,100.0,100.0,91.5625
+threshold_perturbation,T1/T2 -0.05,100.0,0.0,100.0,100.0,100.0
+threshold_perturbation,T1/T2 +0.05,100.0,0.0,100.0,100.0,100.0
+threshold_perturbation,T2/T3 -0.05,100.0,0.0,100.0,100.0,100.0
+threshold_perturbation,T2/T3 +0.05,99.375,0.0,100.0,100.0,99.375
+factor_ablation,remove impact,97.5,0.0,100.0,100.0,97.5
+factor_ablation,remove privilege_breadth,100.0,0.0,100.0,100.0,100.0
+factor_ablation,remove data_sensitivity,100.0,0.0,100.0,100.0,100.0
+factor_ablation,remove data_scope,93.75,0.0,100.0,100.0,93.75
+factor_ablation,remove uncertainty,93.75,0.0,100.0,100.0,93.75
+factor_ablation,remove irreversibility,100.0,0.0,100.0,100.0,100.0
